@@ -41,7 +41,6 @@ jobs:
             if len(data) > 1000: open(path,'wb').write(data); return True
             return False
 
-          # Hauptreihe titles (Band 1-247)
           HAUPT = {
             1:'Das Gespensterschloss',2:'Der Super-Papagei',3:'Der Phantomsee',
             4:'Die schwarze Katze',5:'Der Flüsternde Tod',6:'Das Haus des Schreckens',
@@ -53,9 +52,9 @@ jobs:
             21:'Schrecken aus dem Moor',22:'Im Bann des Voodoo',23:'Die Höhle des Grauens',
             24:'Auf den Spuren des Erdbebens',25:'Paten des Todes',26:'Ein unheimlicher Gegner',
             27:'Feuer im Morgenrot',28:'Das Haus der Rätsel',29:'Die Geheimwaffe',
-            30:'Der Zug des Todes',31:'Der Doktor des Todes',32:'Der Hund des Todes',
-            33:'Der Fluss des Grauens',34:'Die Botschaft aus der Höhle',35:'Der Geist des Pythons',
-            36:'Die Gabe des Teufels',37:'Das Monster im Moor',38:'Die Faust des Erdbebens',
+            30:'Der Zug des Todes',31:'Narbengesicht',32:'Der Hund des Todes',
+            33:'Die Musik des Teufels',34:'Die Botschaft aus der Höhle',35:'Der Geist des Pythons',
+            36:'Der Umweltschock',37:'Der Phantomgaukler',38:'Die Faust des Erdbebens',
             39:'Schrei der Eule',40:'Die Insel des Grauens',41:'Die Klippe des Todes',
             42:'Die Geisterbucht',43:'Das Geheimnis der Krachenden Brücke',
             44:'Der Ritter des Grauens',45:'Die unsichtbare Hand',
@@ -63,11 +62,11 @@ jobs:
             49:'Alarm im Riff',50:'Das Geheimnis der alten Mine',
             51:'Im Tal des Schreckens',52:'Das Geheimnis der Geistermine',
             53:'Das Tal der Dinosaurier',54:'Die Feuerteufel',55:'Der Schatz des Piraten',
-            56:'Das Aztekenschwert',57:'Das Rätsel der leeren Hütte',58:'Der Ruf der Bestie',
-            59:'Das Geheimnis des Gespensterbusses',60:'Auf der Jagd nach dem Phantom',
+            56:'Tatort Zirkus',57:'Das Rätsel der leeren Hütte',58:'Der Ruf der Bestie',
+            59:'Das Aztekenschwert',60:'Auf der Jagd nach dem Phantom',
             61:'Der Fluch des Pharao',62:'Der sprechende Totenkopf',63:'Feuermond',
             64:'Das dunkle Zimmer',65:'Der Feuerteufel',66:'Das Feurige Auge',
-            67:'Das Rätsel des Superpapageis',68:'Die Geisterstadt',69:'Der schwarze Abt',
+            67:'Das Rätsel der Dinosaurier-Insel',68:'Die Geisterstadt',69:'Der schwarze Abt',
             70:'Der unheimliche Drache',71:'Der schwarze Blitz',72:'Die Gruft des Vampirs',
             73:'Das Geheimnis des Gespensterleuchtturms',74:'Der Höllenhund',
             75:'Im Zeichen des Löwen',76:'Die roten Piraten',77:'Der Karpatenhund',
@@ -77,13 +76,62 @@ jobs:
             85:'Die Botschaft des Seewolfs',86:'Der Schrei des Falken',
             87:'Die Musikbox des Todes',88:'Das Erbe des Meisterdiebs',
             89:'Der Todeskünstler',90:'Der Schatz des Drachen',
-            91:'Das Geheimnis der Schlangentätowierung',92:'Das Doppelgänger-Geheimnis',
+            91:'Geheimnis der Schlangentätowierung',92:'Doppelgänger',
             93:'Der Superpapagei schlägt zurück',94:'Das Netz der Spinne',
             95:'Im Bann des Drachen',96:'Der Duft des Bösen',97:'Der Detektiv-Clan',
             98:'Das Rätsel der Totenmaske',99:'Der Weiße Leopard',100:'Im Netz der Lügen',
+            101:'Die Toteninsel',102:'Das vergessene Volk',103:'Der Fluch der Gräber',
+            104:'Das Rätsel der Meister',105:'Der Pfad der Täuschung',106:'Die Nacht der Schatten',
+            107:'Rashuras Schatz',108:'Flammendes Wasser',109:'Der brennende Kristall',
+            110:'Teuflisches Duell',111:'Poltergeist',112:'Spur des Raben',
+            113:'Der Feuerteufel',114:'Der schwarze Skorpion',115:'Das Geheimnis der Sphinx',
+            116:'Hexenhandy',117:'Das Geheimnis der Särge',118:'Tödliche Bilder',
+            119:'Geheimsache Ufo',120:'Das Pentagramm',121:'Der Kristallschädel',
+            122:'Angriff der Computerviren',123:'Das Geheimnis des Zauberlehrlings',
+            124:'Labyrinth der Götter',125:'Feuermond',126:'Feuermond',
+            127:'Der Nebelberg',128:'Der Fluch der Medusa',129:'Das Schwarze Siegel',
+            130:'Höhenangst',131:'Gefährliches Spiel',132:'Im Zeichen des Kraken',
+            133:'Knochenhand',134:'Tatort Zirkus',135:'Schattenwelt',
+            136:'Angriff in der Nacht',137:'Die dunkle Macht',138:'Im Zeichen der Ritter',
+            139:'Der verschwundene Detektiv',140:'Die silberne Hand',
+            141:'Der Tempel der Gerechtigkeit',142:'Das Verhängnis',143:'Schattenspiel',
+            144:'Die Geisterlokomotive',145:'Das dunkle Idol',146:'Spuk im Netz',
+            147:'Der Todespilot',148:'Tödlicher Verdacht',149:'Der dunkle Taipan',
+            150:'Geisterbucht',151:'Rashuras Rückkehr',152:'Der brennende Diamant',
+            153:'Die Drohung',154:'Flüsternder Tod',155:'Spuk in der Dunkelkammer',
+            156:'Gruselkabinett',157:'Der Teufelsberg',158:'Gespensterjäger',
+            159:'Die zertanzten Schuhe',160:'Das schwarze Netz',
+            161:'Angriff aus dem Dunkel',162:'Rotes Gift',163:'Brandmal',
+            164:'Das Echo des Bösen',165:'Schwarzes Gold',166:'Der dunkle Fluss',
+            167:'Das verlorene Schwert',168:'Die Schwarze Spinne',169:'Der Kristallpalast',
+            170:'Todesfalle',171:'Gestohlene Herzen',172:'Das Gesetz des Drachen',
+            173:'Zeuge des Grauens',174:'Der schwarze Guru',175:'Schattenwelt',
+            176:'Schattenwelt',177:'Schattenwelt',178:'Die weiße Anakonda',
+            179:'Sinfonie der Angst',180:'Im Tempel des Krokodils',
+            181:'Der Zeitgeist',182:'Der Giftzeuge',183:'Das gestohlene Gesicht',
+            184:'Höllenfahrt',185:'Das Phantom der Oper',186:'Der unsichtbare Gegner',
+            187:'Sturmgötter',188:'Das Teufelsloch',189:'Die Feuerhöhle',
+            190:'Das Nacht-Tier',191:'Die Ausgelöschten',192:'Die Schwarze Witwe',
+            193:'Der rote Rächer',194:'Das Riff des Teufels',195:'Tödliche Waffe',
+            196:'Im Visier',197:'Brainwash',198:'Grausame Göttin',199:'Das versunkene Schiff',
+            200:'Feuriges Auge',201:'Feuriges Auge',202:'Feuriges Auge',
+            203:'Giftiger Stachel',204:'Die Entführung',205:'Schwarzes Wasser',
+            206:'Schattenboxer',207:'Der Eiskönig',208:'Das Geheimnis der Schlangengrube',
+            209:'Die Blutlinie',210:'Das Haus am Abgrund',211:'Schwarze Raben',
+            212:'Der Fluch des Goldes',213:'Das Netz des Teufels',214:'Die Geisterfalle',
+            215:'Teuflische Spiele',216:'Wilder Ritt',217:'Das Totenmoor',
+            218:'Brandherd',219:'Gier',220:'Falsches Spiel',221:'Der Wolfsjäger',
+            222:'Das schwarze Tribunal',223:'Tödliches Erbe',224:'Schreckensherrschaft',
+            225:'… und der Puppenmacher',226:'Das Echo der Vergangenheit',
+            227:'Die Todesfalle',228:'Der verborgene Schatz',229:'Schwarzes Fieber',
+            230:'Im Dunkeln',231:'Das letzte Rätsel',232:'Die Totenhand',
+            233:'Der Fluch des Todes',234:'Schattenjäger',235:'Im Bann des Barrakudas',
+            236:'Tödliche Küste',237:'Der rote Büffel',238:'Falsche Schuld',
+            239:'Die schwarze Sekte',240:'Dunkle Wahrheit',241:'Geister-Detektive',
+            242:'Der böse Geist',243:'Unter Verdacht',244:'Die Schuldlosen',
+            245:'Todfeinde',246:'Der letzte Zeuge',247:'Spuk in Hollywood',
           }
 
-          # Kids titles
           KIDS = {
             1:'Panik im Paradies',2:'Radio Rocky Beach',3:'Gruft der Piraten',
             4:'Gefangene des Meeres',5:'Schrei in der Nacht',6:'Feuer und Flamme',
@@ -91,7 +139,10 @@ jobs:
             11:'Im Zeichen des Drachen',12:'Die Geisterstadt',13:'Auf Rädern',
             14:'Das Phantom des Schlosses',15:'In der Todesfalle',16:'Das Superbrain',
             17:'Fluch des Meisters',18:'Tödlicher Irrtum',19:'Das Rätsel der Ruinen',
-            20:'Der Schatz im Eis',
+            20:'Der Schatz im Eis',21:'Der Schatz der Wikinger',22:'Das Geheimnis der Mumie',
+            23:'Der unsichtbare Feind',24:'Angriff der Roboter',25:'Tatort Hollywood',
+            26:'Das Phantom der Oper',27:'Spuk in der Schule',28:'Die Zeitkapsel',
+            29:'Der Dämon des Sees',30:'Im Netz der Spinne',
           }
 
           RBC = {
@@ -100,10 +151,8 @@ jobs:
           }
 
           GFX = {
-            1:'Das Gespensterschloss (Graphic Novel)',
-            2:'Der Super-Papagei (Graphic Novel)',
-            3:'Der Karpatenhund (Graphic Novel)',
-            4:'Feuermond (Graphic Novel)',
+            1:'Das Gespensterschloss',2:'Der Karpatenhund',
+            3:'Feuermond',4:'Das Feurige Auge',
           }
 
           SERIES = [
@@ -115,7 +164,7 @@ jobs:
 
           total = 0
           for key, count, titles in SERIES:
-            print('\n=== ' + key + ' (' + str(count) + ') ===')
+            print('\n=== ' + key + ' ===')
             ok = skip = 0
             for n in range(1, count+1):
               if any(os.path.exists('covers/'+key+'/'+str(n)+'.'+e) for e in ['jpg','jpeg','png','webp']):
@@ -134,7 +183,6 @@ jobs:
               time.sleep(0.15)
             print('  '+key+': '+str(ok)+' OK, '+str(skip)+' skip')
             total += ok
-
           print('\nGesamt: '+str(total))
           PYEOF
 
