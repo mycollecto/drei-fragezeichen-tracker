@@ -15,31 +15,23 @@ jobs:
       - name: Ordner erstellen
         run: mkdir -p covers/haupt covers/kids covers/rbc covers/graphic
 
-      - name: Cover vom Fandom-Wiki scrapen
+      - name: Cover herunterladen
         run: |
           python3 << 'PYEOF'
-          import urllib.request, re, os, time
+          import urllib.request, re, os, time, json
 
-          BASE = 'https://diedreifragezeichen.fandom.com'
           HEADERS = {
-            'Referer': 'https://diedreifragezeichen.fandom.com/',
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+            'Accept': 'application/json',
           }
 
-          SERIES = [
-            ('haupt',  247, '/wiki/Kategorie:Fall_der_drei_%3F%3F%3F', r'/wiki/Die_drei_%3F%3F%3F_\(Band_(\d+)\)'),
-            ('kids',   107, '/wiki/Kategorie:Fall_der_drei_%3F%3F%3F_Kids', r'/wiki/Die_drei_%3F%3F%3F_Kids.*?_(\d+)'),
-            ('rbc',      6, '/wiki/Rocky_Beach_Crimes', r''),
-            ('graphic',  8, '/wiki/Graphic_Novel', r''),
-          ]
-
           def fetch(url):
-            req = urllib.request.Request(BASE+url if not url.startswith('http') else url, headers=HEADERS)
+            req = urllib.request.Request(url, headers=HEADERS)
             with urllib.request.urlopen(req, timeout=20) as r:
               return r.read().decode('utf-8', errors='replace')
 
           def dl(url, path):
-            req = urllib.request.Request(url, headers=HEADERS)
+            req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
             with urllib.request.urlopen(req, timeout=20) as r:
               data = r.read()
             if len(data) > 1000:
@@ -47,57 +39,78 @@ jobs:
               return True
             return False
 
-          # For each series, get individual book pages and find cover image
-          total_ok = 0
+          # Use Fandom API to get images per page title
+          BASE_API = 'https://diedreifragezeichen.fandom.com/api.php'
 
-          # Strategy: search for each band individually
-          for key, count, cat_url, link_pat in SERIES:
+          def get_cover_url(title):
+            url = BASE_API + '?action=query&titles=' + urllib.parse.quote(title) + '&prop=pageimages&pithumbsize=400&format=json'
+            try:
+              data = json.loads(fetch(url))
+              pages = data.get('query',{}).get('pages',{})
+              for pid, page in pages.items():
+                thumb = page.get('thumbnail',{}).get('source','')
+                if thumb:
+                  return thumb
+            except:
+              pass
+            return None
+
+          import urllib.parse
+
+          COUNTS = {'haupt': 247, 'kids': 107, 'rbc': 6, 'graphic': 8}
+          RBC_TITLES = {
+            1:'Gefährliche Gentlemen',2:'Der blutrote Kondor',3:'Eiskalter Rausch',
+            4:'Mord unter Palmen',5:'Tödliche Törtchen',6:'Unbekannt'
+          }
+          GFX_TITLES = {
+            1:'Die drei ??? – Der dreiäugige Totenkopf (Graphic Novel)',
+            2:'Die drei ??? – Das Dorf der Teufel (Graphic Novel)',
+            3:'Die drei ??? – Das Ritual der Schlangen (Graphic Novel)',
+            4:'Die drei ??? – Der Goldene Buddha (Graphic Novel)',
+            5:'Die drei ??? – Das Grab der Könige (Graphic Novel)',
+            6:'Die drei ??? – Das Rätsel der Rätsel (Graphic Novel)',
+            7:'Die drei ??? – Der Tempel des Todes (Graphic Novel)',
+            8:'Die drei ??? – Das schwarze Auge (Graphic Novel)',
+          }
+
+          total = 0
+          for key, count in COUNTS.items():
             print('\n=== ' + key + ' (' + str(count) + ') ===')
             ok = skip = 0
             for n in range(1, count+1):
               if any(os.path.exists('covers/'+key+'/'+str(n)+'.'+e) for e in ['jpg','jpeg','png','webp']):
                 continue
-              # Build wiki page URL
               if key == 'haupt':
-                page = '/wiki/Die_drei_%3F%3F%3F_(Band_' + str(n) + ')'
+                title = 'Die drei ??? und ' if n > 1 else 'Die drei ???'
+                title = 'Die drei ??? (Band ' + str(n) + ')'
               elif key == 'kids':
-                page = '/wiki/Die_drei_%3F%3F%3F_Kids_(Band_' + str(n) + ')'
+                title = 'Die drei ??? Kids (Band ' + str(n) + ')'
               elif key == 'rbc':
-                titles = {1:'Gef%C3%A4hrliche_Gentlemen',2:'Der_blutrote_Kondor',3:'Eiskalter_Rausch',4:'Mord_unter_Palmen',5:'T%C3%B6dliche_T%C3%B6rtchen',6:'Unbekannt'}
-                page = '/wiki/' + titles.get(n, '')
-                if not page or page == '/wiki/': skip+=1; continue
+                title = RBC_TITLES.get(n,'')
+                if not title: skip+=1; continue
               elif key == 'graphic':
-                titles = {1:'Der_drei%C3%A4ugige_Totenkopf',2:'Das_Dorf_der_Teufel',3:'Das_Ritual_der_Schlangen',4:'Der_Goldene_Buddha',5:'Das_Grab_der_K%C3%B6nige',6:'Das_R%C3%A4tsel_der_R%C3%A4tsel',7:'Der_Tempel_des_Todes',8:'Das_schwarze_Auge'}
-                page = '/wiki/' + titles.get(n, '')
-                if not page or page == '/wiki/': skip+=1; continue
-              try:
-                html = fetch(page)
-                # Find og:image or first infobox image
-                img_m = re.search(r'<meta property="og:image" content="([^"]+)"', html)
-                if not img_m:
-                  img_m = re.search(r'src="(https://static\.wikia\.nocookie\.net/[^"]+/revision/latest[^"]*)"', html)
-                if img_m:
-                  img_url = img_m.group(1)
-                  # Remove scaling parameters
-                  img_url = re.sub(r'/revision/latest/scale-to-width-down/\d+', '/revision/latest', img_url)
-                  ext = 'jpg'
-                  if '.png' in img_url.lower(): ext = 'png'
-                  elif '.webp' in img_url.lower(): ext = 'webp'
-                  path = 'covers/' + key + '/' + str(n) + '.' + ext
+                title = GFX_TITLES.get(n,'')
+                if not title: skip+=1; continue
+
+              img_url = get_cover_url(title)
+              if img_url:
+                ext = 'png' if '.png' in img_url.lower() else 'jpg'
+                path = 'covers/'+key+'/'+str(n)+'.'+ext
+                try:
                   if dl(img_url, path):
                     ok += 1
                     if ok % 25 == 0: print('  ...' + str(ok))
                   else:
                     skip += 1
-                else:
+                except:
                   skip += 1
-              except Exception as e:
+              else:
                 skip += 1
-              time.sleep(0.15)
+              time.sleep(0.2)
             print('  ' + key + ': ' + str(ok) + ' OK, ' + str(skip) + ' skip')
-            total_ok += ok
+            total += ok
 
-          print('\nGesamt: ' + str(total_ok) + ' Cover')
+          print('\nGesamt: ' + str(total))
           PYEOF
 
       - name: Committen
