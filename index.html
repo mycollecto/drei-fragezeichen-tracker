@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1A237E">
+<title>Die drei ??? Tracker – Alle 368 Bände im Überblick 🔍</title>
+<meta name="description" content="Tracke alle Die drei ??? Bücher und Hörspiele – 368 Bände in 4 Reihen. Hak ab was du gelesen hast und kaufe Bücher und Hörspiele direkt bei Amazon.">
+<meta name="keywords" content="Die drei Fragezeichen, Die drei ???, Tracker, Sammlung, Justus Jonas, Rocky Beach, Kosmos, Hörspiel, Kids, Rocky Beach Crimes">
+<meta property="og:title" content="Die drei ??? Tracker – Alle Bände im Überblick">
+<meta property="og:description" content="368 Bände in 4 Reihen – tracke deine Die drei ??? Sammlung und kaufe Bücher & Hörspiele direkt bei Amazon.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mycollecto.github.io/drei-fragezeichen-tracker/">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mycollecto.github.io/drei-fragezeichen-tracker/">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#F0F4FF;font-family:'Nunito',sans-serif;}
+@keyframes floatDown{0%{transform:translateY(-10px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+@keyframes popIn{0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
+.cdot{position:fixed;top:-12px;pointer-events:none;z-index:9999;animation:floatDown 2s ease-in forwards;}
+
+header{padding:14px 16px 18px;position:sticky;top:0;z-index:100;box-shadow:0 4px 0 rgba(0,0,0,0.2);}
+.htop{display:flex;align-items:center;gap:10px;}
+h1{font-family:'Bangers',cursive;font-size:clamp(1.3rem,4vw,2.2rem);color:#FFD700;letter-spacing:3px;text-shadow:2px 2px 0 rgba(0,0,0,0.5);line-height:1;}
+.hsub{color:rgba(255,255,255,0.9);font-size:0.72rem;margin-top:2px;}
+.pbg{margin-top:10px;height:13px;border-radius:20px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.35);overflow:hidden;}
+.pfill{height:100%;background:linear-gradient(90deg,#FFD700,#FF9800);border-radius:20px;transition:width 0.5s;}
+#totalbar{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.2);}
+.tlabel{display:flex;justify-content:space-between;margin-bottom:4px;}
+.tlabel span{font-family:'Bangers',cursive;font-size:0.65rem;letter-spacing:1.5px;color:rgba(255,255,255,0.65);}
+
+.stabs{background:#fff;border-bottom:3px solid #333;overflow-x:auto;scrollbar-width:none;position:sticky;top:98px;z-index:95;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.stabs::-webkit-scrollbar{display:none;}
+.tabsrow{display:flex;padding:0 6px;min-width:max-content;}
+.tbtn{font-family:'Bangers',cursive;font-size:0.82rem;letter-spacing:1px;padding:9px 11px;border:none;border-bottom:3px solid transparent;background:none;cursor:pointer;color:#888;white-space:nowrap;margin-bottom:-3px;}
+.tbtn.on{color:#1A237E;border-bottom-color:#1A237E;}
+.tbadge{font-size:0.6rem;background:#eee;border-radius:8px;padding:1px 5px;margin-left:3px;color:#999;font-family:'Nunito',sans-serif;font-weight:700;}
+.tbtn.on .tbadge{background:rgba(26,35,126,0.1);color:#1A237E;}
+
+.fbar{background:white;border-bottom:2px solid #eee;padding:9px 14px;position:sticky;top:145px;z-index:90;}
+.frow{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+.fbtn{font-family:'Bangers',cursive;letter-spacing:1px;font-size:0.82rem;padding:6px 13px;border:2px solid #ccc;border-radius:30px;cursor:pointer;background:white;color:#666;}
+.fbtn.on{background:#1A237E;color:white;border-color:#1A237E;}
+.sbox{font-family:'Nunito',sans-serif;font-size:0.85rem;padding:7px 12px;border:2px solid #ccc;border-radius:30px;outline:none;flex:1;min-width:120px;max-width:200px;}
+.sbox:focus{border-color:#1A237E;}
+
+.gwrap{max-width:1200px;margin:0 auto;padding:14px 11px 60px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+
+.card{cursor:pointer;border-radius:10px;overflow:hidden;background:white;box-shadow:3px 3px 0 rgba(0,0,0,0.1);border:2px solid #ddd;transition:transform 0.15s;position:relative;}
+.card:hover{transform:translateY(-3px) rotate(-0.5deg);}
+.card.read{border-color:#4CAF50;box-shadow:0 0 0 2px #4CAF50,3px 3px 0 rgba(0,0,0,0.08);}
+.card.pop{animation:popIn 0.4s ease;}
+.cbadge{display:none;position:absolute;top:5px;right:5px;z-index:5;width:24px;height:24px;border-radius:50%;background:#4CAF50;color:white;align-items:center;justify-content:center;font-size:13px;font-weight:bold;box-shadow:0 2px 4px rgba(0,0,0,0.25);}
+.card.read .cbadge{display:flex;}
+.cwrap{width:100%;aspect-ratio:2/3;overflow:hidden;}
+.cimg{width:100%;height:100%;object-fit:cover;display:block;}
+.ccss{width:100%;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.ccss .st{position:absolute;left:-30%;width:160%;height:18%;background:rgba(255,255,255,0.07);transform:rotate(-12deg);}
+.ccss .logo{background:rgba(0,0,0,0.6);padding:3px 0;text-align:center;font-size:0.42rem;font-family:'Bangers',cursive;letter-spacing:2px;color:#FFD700;position:relative;z-index:1;}
+.ccss .emo{flex:1;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative;z-index:1;}
+.ccss .num{background:rgba(0,0,0,0.7);padding:2px 5px;text-align:center;font-family:'Bangers',cursive;font-size:0.65rem;letter-spacing:1px;color:#FFD700;position:relative;z-index:1;}
+.ctitle{font-family:'Nunito',sans-serif;font-weight:700;font-size:0.58rem;padding:5px 5px 3px;text-align:center;color:#333;line-height:1.3;min-height:2.5em;display:flex;align-items:center;justify-content:center;}
+.card.read .ctitle{background:#F1FFF3;}
+.btnrow{display:flex;gap:3px;padding:0 4px 5px;}
+.card.read .btnrow{background:#F1FFF3;}
+.abtn{flex:1;padding:4px 2px;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.52rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:2px;transition:opacity 0.15s;}
+.abtn:hover{opacity:0.85;}
+.abtn-book{background:#FF9900;color:white;}
+.abtn-audio{background:#232F3E;color:#FF9900;}
+.card.read .btnrow{display:none;}
+
+.schip{display:inline-block;font-size:0.6rem;padding:1px 6px;border-radius:8px;margin-left:5px;font-weight:700;}
+.s-aktiv{background:#E8F5E9;color:#2E7D32;}
+.s-eingestellt{background:#FFEBEE;color:#C62828;}
+.s-abgeschlossen{background:#E3F2FD;color:#1565C0;}
+.empty{text-align:center;padding:50px 0;color:#aaa;}
+footer{text-align:center;padding:10px 0 24px;color:#aaa;font-size:0.62rem;}
+@media(max-width:360px){.grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Die drei ??? Tracker",
+  "description":"Tracke alle Die drei ??? Bücher und Hörspiele – 368 Bände in 4 Reihen.",
+  "url":"https://mycollecto.github.io/drei-fragezeichen-tracker/",
+  "applicationCategory":"LifestyleApplication",
+  "operatingSystem":"Web",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},
+  "keywords":"Die drei Fragezeichen, Die drei ???, Hörspiel, Kosmos, Sammlung"
+}
+</script>
+</head>
+<body>
+<header id="hdr" style="background:linear-gradient(135deg,#1A237E,#283593)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="htop">
+      <span style="font-size:1.9rem">🔍</span>
+      <div style="flex:1">
+        <h1 id="htitle">DIE DREI ???</h1>
+        <div class="hsub" id="hsub">Lade...</div>
+      </div>
+      <span style="font-size:1.9rem">📚</span>
+    </div>
+    <div class="pbg"><div class="pfill" id="pfill" style="width:0%"></div></div>
+    <div id="totalbar">
+      <div class="tlabel">
+        <span>GESAMT ALLE REIHEN</span>
+        <span id="totaltext">0 / 368</span>
+      </div>
+      <div class="pbg"><div id="totalfill" style="height:100%;background:rgba(255,255,255,0.4);border-radius:20px;width:0%;transition:width 0.5s"></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="stabs" style="display:flex;align-items:stretch;">
+  <div class="tabsrow" id="tabsrow" style="flex:1"></div>
+  <a href="https://mycollecto.github.io" style="display:flex;align-items:center;padding:0 14px;background:#FFD700;color:#1A237E;font-family:Bangers,cursive;font-size:0.8rem;letter-spacing:1.5px;text-decoration:none;border-left:3px solid #333;white-space:nowrap;gap:5px;" title="Alle Sammlungen">
+    &#128240; MEHR
+  </a>
+</div>
+
+<div class="fbar">
+  <div class="frow">
+    <button class="fbtn on" data-f="alle" onclick="setFilter(this)">Alle</button>
+    <button class="fbtn" data-f="gelesen" onclick="setFilter(this)">Gelesen</button>
+    <button class="fbtn" data-f="ungelesen" onclick="setFilter(this)">Noch nicht</button>
+    <input class="sbox" type="text" placeholder="🔍 Suchen..." oninput="setSearch(this.value)">
+  </div>
+</div>
+
+<div class="gwrap"><div class="grid" id="grid"></div>
+<div class="empty" id="empty" style="display:none"><div style="font-size:2.5rem;margin-bottom:8px">🔍</div><p style="font-family:Bangers,cursive;font-size:1.3rem;letter-spacing:2px">Nicht gefunden!</p></div>
+</div>
+<footer>Cover via Die drei ??? Fandom Wiki &middot; Fortschritt lokal gespeichert &middot; &copy; Kosmos Verlag</footer>
+
+<script>
+var SK='ddd-v1';
+var AFFILIATE='httpstwit0cdc-21';
+var TOTAL_ALL=368;
+
+var SERIES_META=[
+  {key:'haupt',label:'Die drei ???',emoji:'🔍',c1:'#1A237E',c2:'#283593',count:247,status:'aktiv'},
+  {key:'kids',label:'Die drei ??? Kids',emoji:'👦',c1:'#1B5E20',c2:'#2E7D32',count:107,status:'aktiv'},
+  {key:'rbc',label:'Rocky Beach Crimes',emoji:'🕵',c1:'#B71C1C',c2:'#C62828',count:6,status:'aktiv'},
+  {key:'graphic',label:'Graphic Novel',emoji:'🎨',c1:'#4A148C',c2:'#6A1B9A',count:8,status:'aktiv'},
+];
+
+var TITLES={
+  haupt:{1:'Das Gespensterschloss',2:'Der Super-Papagei',3:'Der Phantomsee',4:'Die schwarze Katze',5:'Der Flüsternde Tod',6:'Das Haus des Schreckens',7:'Die Geisterinsel',8:'Das Skelett aus dem Weltall',9:'Fluch des Rubins',10:'Der geheimnisvolle Wohltäter',11:'Der seltsame Wecker',12:'Die tanzende Teufelsfratze',13:'Das Geheimnis des Zauberers',14:'Der Fluch des Piraten',15:'Schwarze Hand',16:'Das Rätsel des Reiters',17:'Das Geheimnis der brennenden Stadt',18:'Terror aus dem Jenseits',19:'Fluch der Mumie',20:'Das Geheimnis des Drachen',21:'Schrecken aus dem Moor',22:'Im Bann des Voodoo',23:'Die Höhle des Grauens',24:'Auf den Spuren des Erdbebens',25:'Paten des Todes',26:'Ein unheimlicher Gegner',27:'Feuer im Morgenrot',28:'Das Haus der Rätsel',29:'Die Geheimwaffe',30:'Der Zug des Todes',31:'Der Doktor des Todes',32:'Der Hund des Todes',33:'Der Fluss des Grauens',34:'Die Botschaft aus der Höhle',35:'Der Geist des Pythons',36:'Die Gabe des Teufels',37:'Das Monster im Moor',38:'Die Faust des Erdbebens',39:'Schrei der Eule',40:'Die Insel des Grauens',41:'Die Klippe des Todes',42:'Die Geisterbucht',43:'Das Geheimnis der Krachenden Brücke',44:'Der Ritter des Grauens',45:'Die unsichtbare Hand',46:'Das Geheimnis der Toten Stadt',47:'Der Vampir',48:'Der Turm der Verschwundenen',49:'Alarm im Riff',50:'Das Geheimnis der alten Mine',200:'Das Rätsel der Sphinx',237:'Der rote Büffel',238:'Falsche Schuld'},
+  kids:{1:'Panik im Paradies',2:'Radio Rocky Beach',3:'Gruft der Piraten',4:'Gefangene des Meeres',5:'Schrei in der Nacht',6:'Feuer und Flamme',7:'Skateboard-Gang',8:'Alarm im Zoo',9:'Rocker-Alarm',10:'Spuk in der Schule'},
+  rbc:{1:'Gefährliche Gentlemen',2:'Der blutrote Kondor',3:'Eiskalter Rausch',4:'Mord unter Palmen',5:'Tödliche Törtchen',6:'Unbekannt'},
+  graphic:{1:'Der dreiäugige Totenkopf',2:'Das Dorf der Teufel',3:'Das Ritual der Schlangen',4:'Der Goldene Buddha',5:'Das Grab der Könige',6:'Das Rätsel der Rätsel',7:'Der Tempel des Todes',8:'Das schwarze Auge'},
+};
+
+var cur={series:'haupt',filter:'alle',search:''};
+var read={};
+try{read=JSON.parse(localStorage.getItem(SK)||'{}');}catch(e){}
+function save(){try{localStorage.setItem(SK,JSON.stringify(read));}catch(e){}}
+function rkey(s,n){return s+':'+n;}
+
+function getMeta(key){for(var i=0;i<SERIES_META.length;i++){if(SERIES_META[i].key===key)return SERIES_META[i];}return null;}
+function getTitle(series,n){var t=TITLES[series];return (t&&t[n])?t[n]:null;}
+
+function getTotalRead(){var c=0;for(var k in read){if(read[k])c++;}return c;}
+
+function updateTotal(){
+  var done=getTotalRead();
+  var pct=Math.round(done/TOTAL_ALL*100);
+  document.getElementById('totaltext').textContent=done+' / '+TOTAL_ALL;
+  document.getElementById('totalfill').style.width=pct+'%';
+}
+
+function buildTabs(){
+  var row=document.getElementById('tabsrow');
+  row.innerHTML='';
+  SERIES_META.forEach(function(s){
+    var done=0;
+    for(var n=1;n<=s.count;n++){if(read[rkey(s.key,n)])done++;}
+    var btn=document.createElement('button');
+    btn.className='tbtn'+(s.key===cur.series?' on':'');
+    btn.innerHTML=s.emoji+' '+s.label+'<span class="tbadge">'+done+'/'+s.count+'</span>';
+    btn.setAttribute('data-key',s.key);
+    btn.onclick=function(){setSeries(this.getAttribute('data-key'));};
+    row.appendChild(btn);
+  });
+}
+
+function updateHeader(){
+  var m=getMeta(cur.series);
+  var done=0;
+  for(var n=1;n<=m.count;n++){if(read[rkey(cur.series,n)])done++;}
+  var pct=Math.round(done/m.count*100);
+  var smap={aktiv:'aktiv',eingestellt:'eingestellt',abgeschlossen:'abgeschlossen',pause:'Pause'};
+  document.getElementById('htitle').textContent=m.label.toUpperCase();
+  document.getElementById('hsub').innerHTML=done+' von '+m.count+' gelesen &middot; '+pct+'%'
+    +' <span class="schip s-'+m.status+'">'+smap[m.status]+'</span>';
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('hdr').style.background='linear-gradient(135deg,'+m.c1+','+m.c2+')';
+  updateTotal();
+}
+
+function setSeries(key){
+  cur.series=key;cur.filter='alle';cur.search='';
+  document.querySelector('.sbox').value='';
+  document.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-f')==='alle');});
+  buildTabs();updateHeader();renderGrid();
+  setTimeout(function(){var a=document.querySelector('.tbtn.on');if(a)a.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});},50);
+}
+
+var ioObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){loadCover(e.target);ioObs.unobserve(e.target);}});
+},{rootMargin:'400px'});
+
+function makeCss(n,m){
+  var chars=['🔍','📖','🕵','🔦','🗝','💀','🌊','🏔','🕯','⚡','🌙','🎭','🐍','🦅','🔮'];
+  var ch=chars[(n-1)%chars.length];
+  return '<div class="ccss" style="background:linear-gradient(145deg,'+m.c1+' 0%,'+m.c2+' 100%)">'
+    +'<div class="st" style="top:-10%"></div><div class="st" style="top:25%"></div><div class="st" style="top:60%"></div>'
+    +'<div class="logo">DIE DREI ???</div>'
+    +'<div class="emo">'+ch+'</div>'
+    +'<div class="num">'+n+'</div></div>';
+}
+
+function loadCover(card){
+  var n=parseInt(card.getAttribute('data-n'));
+  var series=card.getAttribute('data-s');
+  var wrap=card.querySelector('.cwrap');
+  var url='covers/'+series+'/'+n+'.jpg';
+  var img=new Image();img.className='cimg';
+  img.onload=function(){wrap.innerHTML='';wrap.appendChild(img);};
+  img.src=url;
+}
+
+function toggleRead(series,n){
+  var key=rkey(series,n);
+  var card=document.querySelector('[data-s="'+series+'"][data-n="'+n+'"]');
+  if(read[key]){
+    delete read[key];
+    if(card){card.classList.remove('read','pop');}
+  } else {
+    read[key]=true;
+    if(card){card.classList.add('read','pop');setTimeout(function(){card.classList.remove('pop');},500);}
+    spawnConfetti();
+  }
+  save();updateHeader();buildTabs();
+}
+
+function spawnConfetti(){
+  var c=['#FFD700','#1A237E','#4CAF50','#FF9800','#E91E63','#00BCD4'];
+  for(var i=0;i<20;i++){
+    var d=document.createElement('div');d.className='cdot';
+    var sz=6+Math.random()*8;
+    d.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+c[i%c.length]+';left:'+(Math.random()*100)+'%;animation-delay:'+(Math.random()*0.6)+'s;animation-duration:'+(1.2+Math.random())+'s;border-radius:'+(Math.random()>.5?'50%':'3px');
+    document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},3000);
+  }
+}
+
+function makeAffiliateUrl(series,n,type){
+  var m=getMeta(series);
+  var title=getTitle(series,n);
+  var q;
+  if(type==='audio'){
+    q=encodeURIComponent('Die drei Fragezeichen Hörspiel '+n);
+  } else {
+    if(title) q=encodeURIComponent('Die drei Fragezeichen '+title);
+    else q=encodeURIComponent(m.label+' '+n);
+  }
+  return 'https://www.amazon.de/s?k='+q+'&tag='+AFFILIATE;
+}
+
+function renderGrid(){
+  var m=getMeta(cur.series);
+  var s=cur.search.toLowerCase();
+  var grid=document.getElementById('grid');
+  var empty=document.getElementById('empty');
+  var books=[];
+  for(var n=1;n<=m.count;n++){
+    var title=getTitle(cur.series,n)||'';
+    if(s&&String(n).indexOf(s)<0&&title.toLowerCase().indexOf(s)<0)continue;
+    var k=rkey(cur.series,n);
+    if(cur.filter==='gelesen'&&!read[k])continue;
+    if(cur.filter==='ungelesen'&&read[k])continue;
+    books.push(n);
+  }
+  grid.innerHTML='';
+  if(!books.length){empty.style.display='block';return;}
+  empty.style.display='none';
+  var frag=document.createDocumentFragment();
+  books.forEach(function(n){
+    var k=rkey(cur.series,n);
+    var title=getTitle(cur.series,n)||('??? '+n);
+    var card=document.createElement('div');
+    card.className='card'+(read[k]?' read':'');
+    card.setAttribute('data-n',n);card.setAttribute('data-s',cur.series);
+    card.title='???  '+n+': '+title;
+    var bookUrl=makeAffiliateUrl(cur.series,n,'book');
+    var audioUrl=makeAffiliateUrl(cur.series,n,'audio');
+    var showAudio=(cur.series==='haupt'||cur.series==='kids');
+    var btnHtml='<div class="btnrow">'
+      +'<a class="abtn abtn-book" href="'+bookUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#128722; Buch</a>'
+      +(showAudio?'<a class="abtn abtn-audio" href="'+audioUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#127911; H&ouml;rspiel</a>':'')
+      +'</div>';
+    card.innerHTML='<div class="cbadge">&#10003;</div>'
+      +'<div class="cwrap">'+makeCss(n,m)+'</div>'
+      +'<div class="ctitle">'+title+'</div>'
+      +btnHtml;
+    card.addEventListener('click',(function(s,nn){return function(){toggleRead(s,nn);};})(cur.series,n));
+    frag.appendChild(card);
+    ioObs.observe(card);
+  });
+  grid.appendChild(frag);
+}
+
+function setFilter(btn){
+  cur.filter=btn.getAttribute('data-f');
+  document.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('on',b===btn);});
+  renderGrid();
+}
+function setSearch(v){cur.search=v;renderGrid();}
+
+buildTabs();updateHeader();renderGrid();
+</script>
+</body>
+</html>
