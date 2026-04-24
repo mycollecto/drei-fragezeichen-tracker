@@ -192,6 +192,36 @@ jobs:
           print('\nGesamt: '+str(total))
           PYEOF
 
+      - name: Duplikate entfernen
+        run: |
+          python3 << 'PYEOF'
+          import hashlib, os, re
+
+          FOLDERS = ['haupt','kids','rbc','graphic']
+          total = 0
+          for key in FOLDERS:
+            folder = 'covers/' + key
+            if not os.path.exists(folder): continue
+            files = sorted(f for f in os.listdir(folder) if f.lower().endswith(('.jpg','.jpeg','.png','.webp')))
+            hashes = {}
+            for fname in files:
+              path = os.path.join(folder, fname)
+              h = hashlib.md5(open(path,'rb').read()).hexdigest()
+              if h in hashes:
+                nums1 = re.findall(r'\d+', hashes[h])
+                nums2 = re.findall(r'\d+', fname)
+                n1 = int(nums1[-1]) if nums1 else 0
+                n2 = int(nums2[-1]) if nums2 else 0
+                remove = hashes[h] if n1 < n2 else fname
+                os.remove(os.path.join(folder, remove))
+                hashes[h] = fname if n1 < n2 else hashes[h]
+                print('Dup entfernt: ' + key + '/' + remove)
+                total += 1
+              else:
+                hashes[h] = fname
+          print('Gesamt entfernt: ' + str(total))
+          PYEOF
+
       - name: Committen
         run: |
           git config user.name "github-actions[bot]"
