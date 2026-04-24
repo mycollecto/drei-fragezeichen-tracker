@@ -18,99 +18,124 @@ jobs:
       - name: Cover herunterladen
         run: |
           python3 << 'PYEOF'
-          import urllib.request, re, os, time, json
+          import urllib.request, urllib.parse, re, os, time, json
 
-          HEADERS = {
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
-            'Accept': 'application/json',
-          }
-
-          def fetch(url):
-            req = urllib.request.Request(url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=20) as r:
-              return r.read().decode('utf-8', errors='replace')
-
-          def dl(url, path):
-            req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=20) as r:
-              data = r.read()
-            if len(data) > 1000:
-              open(path, 'wb').write(data)
-              return True
-            return False
-
-          # Use Fandom API to get images per page title
           BASE_API = 'https://diedreifragezeichen.fandom.com/api.php'
+          H = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'}
 
-          def get_cover_url(title):
-            url = BASE_API + '?action=query&titles=' + urllib.parse.quote(title) + '&prop=pageimages&pithumbsize=400&format=json'
+          def get_img(title):
+            url = BASE_API + '?action=query&titles=' + urllib.parse.quote(title) + '&prop=pageimages&pithumbsize=500&format=json'
             try:
-              data = json.loads(fetch(url))
-              pages = data.get('query',{}).get('pages',{})
-              for pid, page in pages.items():
-                thumb = page.get('thumbnail',{}).get('source','')
-                if thumb:
-                  return thumb
-            except:
-              pass
+              req = urllib.request.Request(url, headers=H)
+              with urllib.request.urlopen(req, timeout=15) as r:
+                data = json.loads(r.read())
+              for pid, page in data.get('query',{}).get('pages',{}).items():
+                src = page.get('thumbnail',{}).get('source','')
+                if src: return src
+            except: pass
             return None
 
-          import urllib.parse
+          def dl(url, path):
+            req = urllib.request.Request(url, headers=H)
+            with urllib.request.urlopen(req, timeout=20) as r: data = r.read()
+            if len(data) > 1000: open(path,'wb').write(data); return True
+            return False
 
-          COUNTS = {'haupt': 247, 'kids': 107, 'rbc': 6, 'graphic': 8}
-          RBC_TITLES = {
+          # Hauptreihe titles (Band 1-247)
+          HAUPT = {
+            1:'Das Gespensterschloss',2:'Der Super-Papagei',3:'Der Phantomsee',
+            4:'Die schwarze Katze',5:'Der Flüsternde Tod',6:'Das Haus des Schreckens',
+            7:'Die Geisterinsel',8:'Das Skelett aus dem Weltall',9:'Der Fluch des Rubins',
+            10:'Der geheimnisvolle Wohltäter',11:'Der seltsame Wecker',12:'Die tanzende Teufelsfratze',
+            13:'Das Geheimnis des Zauberers',14:'Der Fluch des Piraten',15:'Schwarze Hand',
+            16:'Das Rätsel des Reiters',17:'Das Geheimnis der brennenden Stadt',
+            18:'Terror aus dem Jenseits',19:'Fluch der Mumie',20:'Das Geheimnis des Drachen',
+            21:'Schrecken aus dem Moor',22:'Im Bann des Voodoo',23:'Die Höhle des Grauens',
+            24:'Auf den Spuren des Erdbebens',25:'Paten des Todes',26:'Ein unheimlicher Gegner',
+            27:'Feuer im Morgenrot',28:'Das Haus der Rätsel',29:'Die Geheimwaffe',
+            30:'Der Zug des Todes',31:'Der Doktor des Todes',32:'Der Hund des Todes',
+            33:'Der Fluss des Grauens',34:'Die Botschaft aus der Höhle',35:'Der Geist des Pythons',
+            36:'Die Gabe des Teufels',37:'Das Monster im Moor',38:'Die Faust des Erdbebens',
+            39:'Schrei der Eule',40:'Die Insel des Grauens',41:'Die Klippe des Todes',
+            42:'Die Geisterbucht',43:'Das Geheimnis der Krachenden Brücke',
+            44:'Der Ritter des Grauens',45:'Die unsichtbare Hand',
+            46:'Das Geheimnis der Toten Stadt',47:'Der Vampir',48:'Der Turm der Verschwundenen',
+            49:'Alarm im Riff',50:'Das Geheimnis der alten Mine',
+            51:'Im Tal des Schreckens',52:'Das Geheimnis der Geistermine',
+            53:'Das Tal der Dinosaurier',54:'Die Feuerteufel',55:'Der Schatz des Piraten',
+            56:'Das Aztekenschwert',57:'Das Rätsel der leeren Hütte',58:'Der Ruf der Bestie',
+            59:'Das Geheimnis des Gespensterbusses',60:'Auf der Jagd nach dem Phantom',
+            61:'Der Fluch des Pharao',62:'Der sprechende Totenkopf',63:'Feuermond',
+            64:'Das dunkle Zimmer',65:'Der Feuerteufel',66:'Das Feurige Auge',
+            67:'Das Rätsel des Superpapageis',68:'Die Geisterstadt',69:'Der schwarze Abt',
+            70:'Der unheimliche Drache',71:'Der schwarze Blitz',72:'Die Gruft des Vampirs',
+            73:'Das Geheimnis des Gespensterleuchtturms',74:'Der Höllenhund',
+            75:'Im Zeichen des Löwen',76:'Die roten Piraten',77:'Der Karpatenhund',
+            78:'Der Golem',79:'Der Schatz im Bergsee',80:'Das Phantom des Horrorhauses',
+            81:'Der Zirkel des Bösen',82:'Das Geheimnis des Strandläufers',
+            83:'Der Tempel des Teufels',84:'Der Gefangene im Turm',
+            85:'Die Botschaft des Seewolfs',86:'Der Schrei des Falken',
+            87:'Die Musikbox des Todes',88:'Das Erbe des Meisterdiebs',
+            89:'Der Todeskünstler',90:'Der Schatz des Drachen',
+            91:'Das Geheimnis der Schlangentätowierung',92:'Das Doppelgänger-Geheimnis',
+            93:'Der Superpapagei schlägt zurück',94:'Das Netz der Spinne',
+            95:'Im Bann des Drachen',96:'Der Duft des Bösen',97:'Der Detektiv-Clan',
+            98:'Das Rätsel der Totenmaske',99:'Der Weiße Leopard',100:'Im Netz der Lügen',
+          }
+
+          # Kids titles
+          KIDS = {
+            1:'Panik im Paradies',2:'Radio Rocky Beach',3:'Gruft der Piraten',
+            4:'Gefangene des Meeres',5:'Schrei in der Nacht',6:'Feuer und Flamme',
+            7:'Skateboard-Gang',8:'Alarm im Zoo',9:'Rocker-Alarm',10:'Spuk in der Schule',
+            11:'Im Zeichen des Drachen',12:'Die Geisterstadt',13:'Auf Rädern',
+            14:'Das Phantom des Schlosses',15:'In der Todesfalle',16:'Das Superbrain',
+            17:'Fluch des Meisters',18:'Tödlicher Irrtum',19:'Das Rätsel der Ruinen',
+            20:'Der Schatz im Eis',
+          }
+
+          RBC = {
             1:'Gefährliche Gentlemen',2:'Der blutrote Kondor',3:'Eiskalter Rausch',
-            4:'Mord unter Palmen',5:'Tödliche Törtchen',6:'Unbekannt'
+            4:'Mord unter Palmen',5:'Tödliche Törtchen',
           }
-          GFX_TITLES = {
-            1:'Die drei ??? – Der dreiäugige Totenkopf (Graphic Novel)',
-            2:'Die drei ??? – Das Dorf der Teufel (Graphic Novel)',
-            3:'Die drei ??? – Das Ritual der Schlangen (Graphic Novel)',
-            4:'Die drei ??? – Der Goldene Buddha (Graphic Novel)',
-            5:'Die drei ??? – Das Grab der Könige (Graphic Novel)',
-            6:'Die drei ??? – Das Rätsel der Rätsel (Graphic Novel)',
-            7:'Die drei ??? – Der Tempel des Todes (Graphic Novel)',
-            8:'Die drei ??? – Das schwarze Auge (Graphic Novel)',
+
+          GFX = {
+            1:'Das Gespensterschloss (Graphic Novel)',
+            2:'Der Super-Papagei (Graphic Novel)',
+            3:'Der Karpatenhund (Graphic Novel)',
+            4:'Feuermond (Graphic Novel)',
           }
+
+          SERIES = [
+            ('haupt', 247, HAUPT),
+            ('kids',  107, KIDS),
+            ('rbc',     6, RBC),
+            ('graphic', 8, GFX),
+          ]
 
           total = 0
-          for key, count in COUNTS.items():
+          for key, count, titles in SERIES:
             print('\n=== ' + key + ' (' + str(count) + ') ===')
             ok = skip = 0
             for n in range(1, count+1):
               if any(os.path.exists('covers/'+key+'/'+str(n)+'.'+e) for e in ['jpg','jpeg','png','webp']):
                 continue
-              if key == 'haupt':
-                title = 'Die drei ??? und ' if n > 1 else 'Die drei ???'
-                title = 'Die drei ??? (Band ' + str(n) + ')'
-              elif key == 'kids':
-                title = 'Die drei ??? Kids (Band ' + str(n) + ')'
-              elif key == 'rbc':
-                title = RBC_TITLES.get(n,'')
-                if not title: skip+=1; continue
-              elif key == 'graphic':
-                title = GFX_TITLES.get(n,'')
-                if not title: skip+=1; continue
-
-              img_url = get_cover_url(title)
-              if img_url:
-                ext = 'png' if '.png' in img_url.lower() else 'jpg'
-                path = 'covers/'+key+'/'+str(n)+'.'+ext
+              title = titles.get(n)
+              if not title: skip+=1; continue
+              img = get_img(title)
+              if img:
+                ext = 'png' if '.png' in img.lower() else 'jpg'
                 try:
-                  if dl(img_url, path):
-                    ok += 1
-                    if ok % 25 == 0: print('  ...' + str(ok))
-                  else:
-                    skip += 1
-                except:
-                  skip += 1
+                  if dl(img, 'covers/'+key+'/'+str(n)+'.'+ext): ok+=1
+                  else: skip+=1
+                except: skip+=1
               else:
-                skip += 1
-              time.sleep(0.2)
-            print('  ' + key + ': ' + str(ok) + ' OK, ' + str(skip) + ' skip')
+                skip+=1
+              time.sleep(0.15)
+            print('  '+key+': '+str(ok)+' OK, '+str(skip)+' skip')
             total += ok
 
-          print('\nGesamt: ' + str(total))
+          print('\nGesamt: '+str(total))
           PYEOF
 
       - name: Committen
