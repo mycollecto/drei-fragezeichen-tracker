@@ -163,7 +163,7 @@ jobs:
 
           SERIES = [
             ('haupt', 244, HAUPT),
-            ('kids',  107, KIDS),
+            ('kids',  109, KIDS),
             ('rbc',     6, RBC),
             ('graphic', 8, GFX),
           ]
