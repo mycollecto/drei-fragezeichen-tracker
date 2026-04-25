@@ -202,10 +202,16 @@ jobs:
                 if not img:
                   img = get_img(title)
               elif key == 'kids':
-                # Fandom stores Kids covers as "TITLE.jpg" - fetch via File: API
-                img = get_img('Datei:' + title + '.jpg')
+                # Fandom Kids filenames have NEU suffix in various forms
+                img = get_img('Datei:' + title + ' NEU.jpg')
                 if not img:
-                  img = get_img('File:' + title + '.jpg')
+                  img = get_img('Datei:' + title + 'NEU.jpg')
+                if not img:
+                  img = get_img('Datei:' + title + ' neu.jpg')
+                if not img:
+                  img = get_img('Datei:' + title + ' neu.jpg')
+                if not img:
+                  img = get_img('Datei:' + title + '.jpg')
                 if not img:
                   img = get_img(title)
               else:
