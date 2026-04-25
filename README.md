@@ -5,7 +5,7 @@ Lesetracker für alle Die drei ??? Bücher und Hörspiele.
 **Live:** https://mycollecto.github.io/drei-fragezeichen-tracker/
 
 ## Features
-- 📚 **362 Bände** in 4 Reihen
+- 📚 **Über 300 Bände** in 4 Reihen
 - 🖼️ Echte Cover vom Fandom-Wiki
 - ✅ Abhaken mit Konfetti
 - 🛒 **Amazon Affiliate** – Buch & Hörspiel Buttons pro Band
