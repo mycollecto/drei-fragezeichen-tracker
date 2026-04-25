@@ -13,7 +13,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Ordner erstellen
-        run: mkdir -p covers/haupt covers/kids covers/rbc covers/graphic
+        run: |
+          mkdir -p covers/haupt covers/kids covers/rbc covers/graphic
+          # Remove existing haupt covers to re-download with correct disambiguation
+          find covers/haupt -type f -delete 2>/dev/null || true
+          echo "Haupt covers cleared for re-download"
+          find covers/kids -type f -delete 2>/dev/null || true
+          echo "Kids covers cleared for re-download" 
 
       - name: Cover herunterladen
         run: |
@@ -190,7 +196,13 @@ jobs:
                 continue
               title = titles.get(n)
               if not title: skip+=1; continue
-              img = get_img(title)
+              # For haupt: try with disambiguation first to get exact page
+              if key == 'haupt':
+                img = get_img(title + ' (Die drei ???)')
+                if not img:
+                  img = get_img(title)
+              else:
+                img = get_img(title)
               if img:
                 ext = 'png' if '.png' in img.lower() else 'jpg'
                 try:
