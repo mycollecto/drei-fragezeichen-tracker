@@ -201,6 +201,13 @@ jobs:
                 img = get_img(title + ' (Die drei ???)')
                 if not img:
                   img = get_img(title)
+              elif key == 'kids':
+                # Fandom stores Kids covers as "TITLE.jpg" - fetch via File: API
+                img = get_img('Datei:' + title + '.jpg')
+                if not img:
+                  img = get_img('File:' + title + '.jpg')
+                if not img:
+                  img = get_img(title)
               else:
                 img = get_img(title)
               if img:
