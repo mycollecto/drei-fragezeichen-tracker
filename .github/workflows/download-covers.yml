@@ -40,17 +40,31 @@ jobs:
                 src = page.get('thumbnail',{}).get('source','')
                 if src: return src
             except: pass
-            # Fallback: fetch HTML page and get og:image
+            return None
+
+          def get_img_from_wikitext(title):
+            # Extract Bild/Image field from wikitext and fetch that file
             try:
-              page_url = 'https://diedreifragezeichen.fandom.com/wiki/' + urllib.parse.quote(title.replace(' ', '_'))
-              req2 = urllib.request.Request(page_url, headers=H)
-              with urllib.request.urlopen(req2, timeout=15) as r:
-                html = r.read().decode('utf-8', errors='replace')
-              m = re.search(r'<meta property="og:image" content="([^"]+)"', html)
+              raw_url = 'https://diedreifragezeichen.fandom.com/wiki/' + urllib.parse.quote(title.replace(' ', '_')) + '?action=raw'
+              req = urllib.request.Request(raw_url, headers=H)
+              with urllib.request.urlopen(req, timeout=15) as r:
+                wikitext = r.read().decode('utf-8', errors='replace')
+              # Extract Bild or Image field
+              m = re.search(r'[Bb]ild\s*=\s*([^\|\}
+]+)', wikitext)
+              if not m:
+                m = re.search(r'[Ii]mage\s*=\s*([^\|\}
+]+)', wikitext)
               if m:
-                img = m.group(1)
-                img = re.sub(r'/revision/latest/scale-to-width-down/\d+', '/revision/latest', img)
-                return img
+                fname = m.group(1).strip()
+                # Skip screenshots
+                if 'screenshot' in fname.lower() or 'Screenshot' in fname:
+                  return None
+                # Fetch the file via API
+                src = get_img('Datei:' + fname)
+                if not src:
+                  src = get_img('File:' + fname)
+                return src
             except: pass
             return None
 
@@ -201,6 +215,33 @@ jobs:
                 img = get_img(title + ' (Die drei ???)')
                 if not img:
                   img = get_img(title)
+                # Special cases where Fandom uses different title
+                if not img and title == 'Geheimsache Ufo':
+                  img = get_img('Geheimakte Ufo (Die drei ???)')
+                  if not img: img = get_img('Geheimakte Ufo')
+                # Special filenames from Fandom wikitext
+                SPECIAL_FILES = {
+                  'Der Tag der Toten': 'Der Tag der Toten Screenshot.png',
+                  'Der Ruf der Krähen': 'Der Ruf der Krähen 1.png',
+                  'Der dreiäugige Schakal': 'Der dreiäugige Schakal.jpg',
+                  'Die Stadt aus Gold': 'Die Stadt aus Gold.jpg',
+                  'Die Nacht der Gewitter': 'Die Nacht der Gewitter.jpg',
+                  'Das Fantasmofon': 'Das Fantasmofon.jpg',
+                  'Im Bann des Barrakudas': 'Im Bann des Barrakudas.jpg',
+                  'Der lebende Tresor': 'Der lebende Tresor.jpg',
+                  'Der rote Büffel': 'Der rote Büffel.jpg',
+                  'Falsche Schuld': 'Falsche Schuld.jpg',
+                  'Das Geheimnis der sieben Palmen': 'Das Geheimnis der sieben Palmen.jpg',
+                  'Meister des Lichts': 'Meister des Lichts.jpg',
+                  'Die schwarze Rose': 'Die schwarze Rose.jpg',
+                  'Das weiße Auge': 'Das weisse Auge.jpg',
+                }
+                if not img and title in SPECIAL_FILES:
+                  img = get_img('Datei:' + SPECIAL_FILES[title])
+                  if not img: img = get_img('File:' + SPECIAL_FILES[title])
+                # Fallback: extract Bild field from wikitext
+                if not img:
+                  img = get_img_from_wikitext(title)
               elif key == 'kids':
                 # Fandom Kids filenames have NEU suffix in various forms
                 img = get_img('Datei:' + title + ' NEU.jpg')
