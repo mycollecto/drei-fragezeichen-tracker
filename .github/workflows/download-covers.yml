@@ -50,11 +50,9 @@ jobs:
               with urllib.request.urlopen(req, timeout=15) as r:
                 wikitext = r.read().decode('utf-8', errors='replace')
               # Extract Bild or Image field
-              m = re.search(r'[Bb]ild\s*=\s*([^\|\}
-]+)', wikitext)
+              m = re.search(r'[Bb]ild\s*=\s*([^\|\}\n]+)', wikitext)
               if not m:
-                m = re.search(r'[Ii]mage\s*=\s*([^\|\}
-]+)', wikitext)
+                m = re.search(r'[Ii]mage\s*=\s*([^\|\}\n]+)', wikitext)
               if m:
                 fname = m.group(1).strip()
                 # Skip screenshots
