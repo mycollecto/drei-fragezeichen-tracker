@@ -30,7 +30,20 @@ jobs:
           H = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'}
 
           def get_img(title):
-            # Try pageimages API first
+            # For File/Datei pages use imageinfo
+            if title.startswith('Datei:') or title.startswith('File:'):
+              url = BASE_API + '?action=query&titles=' + urllib.parse.quote(title) + '&prop=imageinfo&iiprop=url&format=json'
+              try:
+                req = urllib.request.Request(url, headers=H)
+                with urllib.request.urlopen(req, timeout=15) as r:
+                  data = json.loads(r.read())
+                for pid, page in data.get('query',{}).get('pages',{}).items():
+                  info = page.get('imageinfo', [])
+                  if info and info[0].get('url'):
+                    return info[0]['url']
+              except: pass
+              return None
+            # For regular pages use pageimages
             url = BASE_API + '?action=query&titles=' + urllib.parse.quote(title) + '&prop=pageimages&pithumbsize=500&format=json'
             try:
               req = urllib.request.Request(url, headers=H)
