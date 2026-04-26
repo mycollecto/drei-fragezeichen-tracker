@@ -15,11 +15,10 @@ jobs:
       - name: Ordner erstellen
         run: |
           mkdir -p covers/haupt covers/kids covers/rbc covers/graphic
-          # Remove existing haupt covers to re-download with correct disambiguation
-          find covers/haupt -type f -delete 2>/dev/null || true
-          echo "Haupt covers cleared for re-download"
-          find covers/kids -type f -delete 2>/dev/null || true
-          echo "Kids covers cleared for re-download" 
+          # Clear graphic and rbc covers to re-download correctly
+          find covers/graphic -type f -delete 2>/dev/null || true
+          find covers/rbc -type f -delete 2>/dev/null || true
+          echo "Graphic and RBC covers cleared" 
 
       - name: Cover herunterladen
         run: |
@@ -211,7 +210,7 @@ jobs:
           SERIES = [
             ('haupt', 244, HAUPT),
             ('kids',  109, KIDS),
-            ('rbc',     6, RBC),
+            ('rbc',     5, RBC),
             ('graphic', 9, GFX),
           ]
 
