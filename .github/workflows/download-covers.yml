@@ -15,10 +15,7 @@ jobs:
       - name: Ordner erstellen
         run: |
           mkdir -p covers/haupt covers/kids covers/rbc covers/graphic
-          # Clear graphic and rbc covers to re-download correctly
-          find covers/graphic -type f -delete 2>/dev/null || true
-          find covers/rbc -type f -delete 2>/dev/null || true
-          echo "Graphic and RBC covers cleared" 
+
 
       - name: Cover herunterladen
         run: |
@@ -284,18 +281,43 @@ jobs:
                 if not img:
                   img = get_img_from_wikitext(title)
               elif key == 'kids':
-                # Fandom Kids filenames have NEU suffix in various forms
-                img = get_img('Datei:' + title + ' NEU.jpg')
+                # Strategy 1: pageimages API (works for some)
+                img = get_img(title)
+                # Strategy 2: NEU suffix variants via imageinfo
                 if not img:
-                  img = get_img('Datei:' + title + 'NEU.jpg')
+                  for suffix in [' NEU.jpg', 'NEU.jpg', ' neu.jpg', '.jpg', ' NEU.png', '.png']:
+                    img = get_img('Datei:' + title + suffix)
+                    if img: break
+                # Strategy 3: Read raw wikitext and extract Bild= field
                 if not img:
-                  img = get_img('Datei:' + title + ' neu.jpg')
+                  try:
+                    raw_url = 'https://diedreifragezeichen.fandom.com/wiki/' + urllib.parse.quote(title.replace(' ', '_')) + '?action=raw'
+                    req3 = urllib.request.Request(raw_url, headers=H)
+                    with urllib.request.urlopen(req3, timeout=15) as r:
+                      wikitext = r.read().decode('utf-8', errors='replace')
+                    bild_m = re.search(r'[Bb]ild\s*=\s*([^\|\}
+
+]+)', wikitext)
+                    if bild_m:
+                      fname = bild_m.group(1).strip()
+                      if fname:
+                        img = get_img('Datei:' + fname)
+                        if not img: img = get_img('File:' + fname)
+                  except: pass
+                # Strategy 4: og:image from HTML page
                 if not img:
-                  img = get_img('Datei:' + title + ' neu.jpg')
-                if not img:
-                  img = get_img('Datei:' + title + '.jpg')
-                if not img:
-                  img = get_img(title)
+                  try:
+                    page_url = 'https://diedreifragezeichen.fandom.com/wiki/' + urllib.parse.quote(title.replace(' ', '_'))
+                    req4 = urllib.request.Request(page_url, headers=H)
+                    with urllib.request.urlopen(req4, timeout=15) as r:
+                      html = r.read().decode('utf-8', errors='replace')
+                    og_m = re.search(r'<meta property="og:image" content="([^"]+)"', html)
+                    if og_m:
+                      src = og_m.group(1)
+                      if 'wikia.nocookie.net' in src or 'static.wikia' in src:
+                        src = re.sub(r'/revision/latest/scale-to-width-down/[0-9]+', '/revision/latest', src)
+                        img = src
+                  except: pass
               else:
                 img = get_img(title)
               if img:
