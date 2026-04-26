@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1A237E">
+<title>Die drei ??? Tracker – Alle 368 Bände im Überblick 🔍</title>
+<meta name="description" content="Tracke alle Die drei ??? Bücher und Hörspiele – 368 Bände in 4 Reihen. Hak ab was du gelesen hast und kaufe Bücher und Hörspiele direkt bei Amazon.">
+<meta name="keywords" content="Die drei Fragezeichen, Die drei ???, Tracker, Sammlung, Justus Jonas, Rocky Beach, Kosmos, Hörspiel, Kids, Rocky Beach Crimes">
+<meta property="og:title" content="Die drei ??? Tracker – Alle Bände im Überblick">
+<meta property="og:description" content="368 Bände in 4 Reihen – tracke deine Die drei ??? Sammlung und kaufe Bücher & Hörspiele direkt bei Amazon.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mycollecto.github.io/drei-fragezeichen-tracker/">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mycollecto.github.io/drei-fragezeichen-tracker/">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#F0F4FF;font-family:'Nunito',sans-serif;}
+@keyframes floatDown{0%{transform:translateY(-10px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+@keyframes popIn{0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
+.cdot{position:fixed;top:-12px;pointer-events:none;z-index:9999;animation:floatDown 2s ease-in forwards;}
+
+header{padding:14px 16px 18px;position:sticky;top:0;z-index:100;box-shadow:0 4px 0 rgba(0,0,0,0.2);}
+.htop{display:flex;align-items:center;gap:10px;}
+h1{font-family:'Bangers',cursive;font-size:clamp(1.3rem,4vw,2.2rem);color:#FFD700;letter-spacing:3px;text-shadow:2px 2px 0 rgba(0,0,0,0.5);line-height:1;}
+.hsub{color:rgba(255,255,255,0.9);font-size:0.72rem;margin-top:2px;}
+.pbg{margin-top:10px;height:13px;border-radius:20px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.35);overflow:hidden;}
+.pfill{height:100%;background:linear-gradient(90deg,#FFD700,#FF9800);border-radius:20px;transition:width 0.5s;}
+#totalbar{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.2);}
+.tlabel{display:flex;justify-content:space-between;margin-bottom:4px;}
+.tlabel span{font-family:'Bangers',cursive;font-size:0.65rem;letter-spacing:1.5px;color:rgba(255,255,255,0.65);}
+
+.stabs{background:#fff;border-bottom:3px solid #333;overflow-x:auto;scrollbar-width:none;position:sticky;top:98px;z-index:95;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.stabs::-webkit-scrollbar{display:none;}
+.tabsrow{display:flex;padding:0 6px;min-width:max-content;}
+.tbtn{font-family:'Bangers',cursive;font-size:0.82rem;letter-spacing:1px;padding:9px 11px;border:none;border-bottom:3px solid transparent;background:none;cursor:pointer;color:#888;white-space:nowrap;margin-bottom:-3px;}
+.tbtn.on{color:#1A237E;border-bottom-color:#1A237E;}
+.tbadge{font-size:0.6rem;background:#eee;border-radius:8px;padding:1px 5px;margin-left:3px;color:#999;font-family:'Nunito',sans-serif;font-weight:700;}
+.tbtn.on .tbadge{background:rgba(26,35,126,0.1);color:#1A237E;}
+
+.fbar{background:white;border-bottom:2px solid #eee;padding:9px 14px;position:sticky;top:145px;z-index:90;}
+.frow{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+.fbtn{font-family:'Bangers',cursive;letter-spacing:1px;font-size:0.82rem;padding:6px 13px;border:2px solid #ccc;border-radius:30px;cursor:pointer;background:white;color:#666;}
+.fbtn.on{background:#1A237E;color:white;border-color:#1A237E;}
+.sbox{font-family:'Nunito',sans-serif;font-size:0.85rem;padding:7px 12px;border:2px solid #ccc;border-radius:30px;outline:none;flex:1;min-width:120px;max-width:200px;}
+.sbox:focus{border-color:#1A237E;}
+
+.gwrap{max-width:1200px;margin:0 auto;padding:14px 11px 60px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+
+.card{cursor:pointer;border-radius:10px;overflow:hidden;background:white;box-shadow:3px 3px 0 rgba(0,0,0,0.1);border:2px solid #ddd;transition:transform 0.15s;position:relative;}
+.card:hover{transform:translateY(-3px) rotate(-0.5deg);}
+.card.read{border-color:#4CAF50;box-shadow:0 0 0 2px #4CAF50,3px 3px 0 rgba(0,0,0,0.08);}
+.card.pop{animation:popIn 0.4s ease;}
+.cbadge{display:none;position:absolute;top:5px;right:5px;z-index:5;width:24px;height:24px;border-radius:50%;background:#4CAF50;color:white;align-items:center;justify-content:center;font-size:13px;font-weight:bold;box-shadow:0 2px 4px rgba(0,0,0,0.25);}
+.card.read .cbadge{display:flex;}
+.cwrap{width:100%;aspect-ratio:2/3;overflow:hidden;}
+.cimg{width:100%;height:100%;object-fit:cover;display:block;}
+.ccss{width:100%;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.ccss .st{position:absolute;left:-30%;width:160%;height:18%;background:rgba(255,255,255,0.07);transform:rotate(-12deg);}
+.ccss .logo{background:rgba(0,0,0,0.6);padding:3px 0;text-align:center;font-size:0.42rem;font-family:'Bangers',cursive;letter-spacing:2px;color:#FFD700;position:relative;z-index:1;}
+.ccss .emo{flex:1;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative;z-index:1;}
+.ccss .num{background:rgba(0,0,0,0.7);padding:2px 5px;text-align:center;font-family:'Bangers',cursive;font-size:0.65rem;letter-spacing:1px;color:#FFD700;position:relative;z-index:1;}
+.ctitle{font-family:'Nunito',sans-serif;font-weight:700;font-size:0.58rem;padding:5px 5px 3px;text-align:center;color:#333;line-height:1.3;min-height:2.5em;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.card.read .ctitle{background:#F1FFF3;}
+.btnrow{display:flex;gap:3px;padding:0 4px 5px;}
+.card.read .btnrow{background:#F1FFF3;}
+.abtn{flex:1;padding:4px 2px;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.52rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:2px;transition:opacity 0.15s;}
+.abtn:hover{opacity:0.85;}
+.abtn-book{background:#FF9900;color:white;}
+.abtn-audio{background:#232F3E;color:#FF9900;}
+.card.read .btnrow{display:none;}
+
+.schip{display:inline-block;font-size:0.6rem;padding:1px 6px;border-radius:8px;margin-left:5px;font-weight:700;}
+.s-aktiv{background:#E8F5E9;color:#2E7D32;}
+.s-eingestellt{background:#FFEBEE;color:#C62828;}
+.s-abgeschlossen{background:#E3F2FD;color:#1565C0;}
+.empty{text-align:center;padding:50px 0;color:#aaa;}
+footer{text-align:center;padding:10px 0 24px;color:#aaa;font-size:0.62rem;}
+@media(max-width:360px){.grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Die drei ??? Tracker",
+  "description":"Tracke alle Die drei ??? Bücher und Hörspiele – 368 Bände in 4 Reihen.",
+  "url":"https://mycollecto.github.io/drei-fragezeichen-tracker/",
+  "applicationCategory":"LifestyleApplication",
+  "operatingSystem":"Web",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},
+  "keywords":"Die drei Fragezeichen, Die drei ???, Hörspiel, Kosmos, Sammlung"
+}
+</script>
+</head>
+<body>
+<header id="hdr" style="background:linear-gradient(135deg,#1A237E,#283593)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="htop">
+      <span style="font-size:1.9rem">🔍</span>
+      <div style="flex:1">
+        <h1 id="htitle">DIE DREI ???</h1>
+        <div class="hsub" id="hsub">Lade...</div>
+      </div>
+      <span style="font-size:1.9rem">📚</span>
+    </div>
+    <div class="pbg"><div class="pfill" id="pfill" style="width:0%"></div></div>
+    <div id="totalbar">
+      <div class="tlabel">
+        <span>GESAMT ALLE REIHEN</span>
+        <span id="totaltext">0 / 368</span>
+      </div>
+      <div class="pbg"><div id="totalfill" style="height:100%;background:rgba(255,255,255,0.4);border-radius:20px;width:0%;transition:width 0.5s"></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="stabs" style="display:flex;align-items:stretch;">
+  <div class="tabsrow" id="tabsrow" style="flex:1"></div>
+  <a href="https://mycollecto.github.io" style="display:flex;align-items:center;padding:0 14px;background:#FFD700;color:#1A237E;font-family:Bangers,cursive;font-size:0.8rem;letter-spacing:1.5px;text-decoration:none;border-left:3px solid #333;white-space:nowrap;gap:5px;" title="Alle Sammlungen">
+    &#128240; MEHR
+  </a>
+</div>
+
+<div class="fbar">
+  <div class="frow">
+    <button class="fbtn on" data-f="alle" onclick="setFilter(this)">Alle</button>
+    <button class="fbtn" data-f="gelesen" onclick="setFilter(this)">Gelesen</button>
+    <button class="fbtn" data-f="ungelesen" onclick="setFilter(this)">Noch nicht</button>
+    <input class="sbox" type="text" placeholder="🔍 Suchen..." oninput="setSearch(this.value)">
+  </div>
+</div>
+
+<div class="gwrap"><div class="grid" id="grid"></div>
+<div class="empty" id="empty" style="display:none"><div style="font-size:2.5rem;margin-bottom:8px">🔍</div><p style="font-family:Bangers,cursive;font-size:1.3rem;letter-spacing:2px">Nicht gefunden!</p></div>
+</div>
+<footer>Cover via Die drei ??? Fandom Wiki &middot; Fortschritt lokal gespeichert &middot; &copy; Kosmos Verlag</footer>
+
+<script>
+var SK='ddd-v1';
+var AFFILIATE='httpstwit0cdc-21';
+var TOTAL_ALL=367;
+
+var SERIES_META=[
+  {key:'haupt',label:'Die drei ???',emoji:'🔍',c1:'#1A237E',c2:'#283593',count:244,status:'aktiv'},
+  {key:'kids',label:'Die drei ??? Kids',emoji:'👦',c1:'#1B5E20',c2:'#2E7D32',count:109,status:'aktiv'},
+  {key:'rbc',label:'Rocky Beach Crimes',emoji:'🕵',c1:'#B71C1C',c2:'#C62828',count:5,status:'aktiv'},
+  {key:'graphic',label:'Graphic Novel',emoji:'🎨',c1:'#4A148C',c2:'#6A1B9A',count:9,status:'aktiv'},
+];
+
+var TITLES={
+  haupt:{1:'Das Gespensterschloss',2:'Die flüsternde Mumie',3:'Der Fluch des Rubins',4:'Der seltsame Wecker',5:'Der sprechende Totenkopf',6:'Der lachende Schatten',7:'Die schwarze Katze',8:'Der Super-Papagei',9:'Der unheimliche Drache',10:'Der verschwundene Schatz',11:'Die Geisterinsel',12:'Der rasende Löwe',13:'Der Teufelsberg',14:'Der grüne Geist',15:'Die singende Schlange',16:'Die rätselhaften Bilder',17:'Das Bergmonster',18:'Der Phantomsee',19:'Der Zauberspiegel',20:'Die gefährliche Erbschaft',21:'Der Karpatenhund',22:'Die flammende Spur',23:'Der tanzende Teufel',24:'Die Silbermine',25:'Das Aztekenschwert',26:'Die silberne Spinne',27:'Der magische Kreis',28:'Der Doppelgänger',29:'Das Riff der Haie',30:'Das Narbengesicht',31:'Der Ameisenmensch',32:'Die bedrohte Ranch',33:'Der rote Pirat',34:'Der Höhlenmensch',35:'Der Super-Wal',36:'Der heimliche Hehler',37:'Der unsichtbare Gegner',38:'Die Perlenvögel',39:'Der Automarder',40:'Das Volk der Winde',41:'Der weinende Sarg',42:'Der höllische Werwolf',43:'Der gestohlene Preis',44:'Das Gold der Wikinger',45:'Der schrullige Millionär',46:'Die Comic-Diebe',47:'Die gefährlichen Fässer',48:'Der giftige Gockel',49:'Die Automafia',50:'Die Musikpiraten',51:'Der verschwundene Filmstar',52:'Der riskante Ritt',53:'Gekaufte Spieler',54:'Gefahr im Verzug',55:'Angriff der Computer-Viren',56:'Tatort Zirkus',57:'Der verrückte Maler',58:'Giftiges Wasser',59:'Dopingmixer',60:'Die Rache des Tigers',61:'Spuk im Hotel',62:'Fußball-Gangster',63:'Geisterstadt',64:'Diamantenschmuggel',65:'Die Schattenmänner',66:'Geheimnis der Särge',67:'Schatz im Bergsee',68:'Späte Rache',69:'Schüsse aus dem Dunkel',70:'Die verschwundene Seglerin',71:'Dreckiger Deal',72:'Die Spur des Raben',73:'Poltergeist',74:'Das brennende Schwert',75:'Pistenteufel',76:'Stimmen aus dem Nichts',77:'Das leere Grab',78:'Verdeckte Fouls',79:'Im Bann des Voodoo',80:'Geheimsache Ufo',81:'Meuterei auf hoher See',82:'Musik des Teufels',83:'Die Karten des Bösen',84:'Wolfsgesicht',85:'Nacht in Angst',86:'Feuerturm',87:'Tödliche Spur',88:'Vampir im Internet',89:'Das Geisterschiff',90:'Todesflug',91:'Labyrinth der Götter',92:'Der rote Rächer',93:'Das schwarze Monster',94:'Botschaft von Geisterhand',95:'Insektenstachel',96:'Rufmord',97:'Tal des Schreckens',98:'Doppelte Täuschung',99:'Das Hexenhandy',100:'Toteninsel',101:'Das Erbe des Meisterdiebs',102:'Gift per E-Mail',103:'Der Nebelberg',104:'Der Mann ohne Kopf',105:'Der Schatz der Mönche',106:'Die sieben Tore',107:'Gefährliches Quiz',108:'Panik im Park',109:'Die Höhle des Grauens',110:'Das Auge des Drachen',111:'Schlucht der Dämonen',112:'Die Villa der Toten',113:'Der Feuerteufel',114:'Der finstere Rivale',115:'Codename: Cobra',116:'Auf tödlichem Kurs',117:'Der schwarze Skorpion',118:'Das düstere Vermächtnis',119:'Der geheime Schlüssel',120:'Spur ins Nichts',121:'Der Geisterzug',122:'Fußballfieber',123:'Schrecken aus dem Moor',124:'Geister-Canyon',125:'Feuermond',126:'SMS aus dem Grab',127:'Schwarze Madonna',128:'Schatten über Hollywood',129:'Spuk im Netz',130:'Der Fluch des Drachen',131:'Haus des Schreckens',132:'Fluch des Piraten',133:'Fels der Dämonen',134:'Der tote Mönch',135:'Die geheime Treppe',136:'Das versunkene Dorf',137:'Pfad der Angst',138:'Die Fußball-Falle',139:'Das Geheimnis der Diva',140:'Stadt der Vampire',141:'Zwillinge der Finsternis',142:'Tödliches Eis',143:'Die Poker-Hölle',144:'Grusel auf Campbell Castle',145:'Die Rache der Samurai',146:'Der Biss der Bestie',147:'Schwarze Sonne',148:'Die feurige Flut',149:'Der namenlose Gegner',150:'Geisterbucht',151:'Das Fußballphantom',152:'Skateboardfieber',153:'Botschaft aus der Unterwelt',154:'Der Meister des Todes',155:'Im Netz des Drachen',156:'Im Zeichen der Schlangen',157:'Nacht der Tiger',158:'Der Feuergeist',159:'Der schreiende Nebel',160:'Geheimnisvolle Botschaften',161:'Die blutenden Bilder',162:'Fußball-Teufel',163:'Der verschollene Pilot',164:'Im Schatten des Giganten',165:'GPS-Gangster',166:'Das blaue Biest',167:'Die brennende Stadt',168:'Das Phantom aus dem Meer',169:'Straße des Grauens',170:'Die Spur des Spielers',171:'Das Tuch der Toten',172:'Der Eisenmann',173:'Dämon der Rache',174:'Der gestohlene Sieg',175:'Schattenwelt',176:'Der Geist des Goldgräbers',177:'Der gefiederte Schrecken',178:'Die Rache des Untoten',179:'Die flüsternden Puppen',180:'Im Haus des Henkers',181:'Das Kabinett des Zauberers',182:'Der letzte Song',183:'Der Hexengarten',184:'Das silberne Amulett',185:'Insel des Vergessens',186:'Der Mann ohne Augen',187:'Signale aus dem Jenseits',188:'Der unsichtbare Passagier',189:'Die Kammer der Rätsel',190:'Verbrechen im Nichts',191:'Im Bann des Drachen',192:'Schrecken aus der Tiefe',193:'Die Zeitreisende',194:'Im Reich der Ungeheuer',195:'Geheimnis des Bauchredners',196:'Der grüne Kobold',197:'Im Auge des Sturms',198:'Die Legende der Gaukler',199:'Höhenangst',200:'Feuriges Auge',201:'Das weiße Grab',202:'Tauchgang ins Ungewisse',203:'Der dunkle Wächter',204:'Das rätselhafte Erbe',205:'Der Mottenmann',206:'Die falschen Detektive',207:'Kreaturen der Nacht',208:'Die schweigende Grotte',209:'Kelch des Schicksals',210:'Der Jadekönig',211:'Der Fluch der Medusa',212:'Der weiße Leopard',213:'Der Geisterbunker',214:'Die verlorene Zeit',215:'Die Schwingen des Unheils',216:'Im Netz der Lügen',217:'Der Kristallschädel',218:'Die Teufelsklippe',219:'Manuskript des Satans',220:'Im Wald der Gefahren',221:'Der Knochenmann',222:'Die Gesetzlosen',223:'Die Yacht des Verrats',224:'Die Spur der Toten',225:'Der Puppenmacher',226:'Melodie der Rache',227:'Drehbuch der Täuschung',228:'Der Tag der Toten',229:'Der Ruf der Krähen',230:'Der dreiäugige Schakal',231:'Die Stadt aus Gold',232:'Die Nacht der Gewitter',233:'Das Fantasmofon',234:'Im Bann des Barrakudas',235:'Der lebende Tresor',236:'Der rote Büffel',237:'Falsche Schuld',238:'Das Geheimnis der sieben Palmen',239:'Meister des Lichts',240:'Die schwarze Rose',241:'Das weiße Auge',242:'Das Lied der Knochenflöte',243:'Rätsel des Mondes',244:'Fußball-Skandal'},
+  kids:{1:'Panik im Paradies',2:'Radio Rocky Beach',3:'Invasion der Fliegen',4:'Chaos vor der Kamera',5:'Flucht in die Zukunft',6:'Gefahr im Gruselgarten',7:'Gruft der Piraten',8:'Nacht unter Wölfen',9:'SOS über den Wolken',10:'Spuk in Rocky Beach',11:'Fluch des Goldes',12:'Internetpiraten',13:'Im Reich der Rätsel',14:'Gefahr aus dem All',15:'In der Geisterstadt',16:'Der magische Brunnen',17:'Rettet Atlantis!',18:'Mission Maulwurf',19:'Spur in die Wildnis',20:'Die Schmugglerinsel',21:'Die Geisterjäger',22:'Einarmige Banditen',23:'Feuer in Rocky Beach',24:'Im Bann des Zauberers',25:'In letzter Sekunde',26:'Fußball-Alarm',27:'Die Schokofalle',28:'Diamantenjagd',29:'Monsterpilze',30:'Im Geisterschiff',31:'Rückkehr der Saurier',32:'Die Gruselfalle',33:'Nacht im Kerker',34:'Falsches Gold',35:'Im Wilden Westen',36:'Mission Mars',37:'Der Fluch der Indianer',38:'Stunde der Wahrheit',39:'Der verrückte Erfinder',40:'Brennendes Eis',41:'Insel der Haie',42:'Fußballgötter',43:'Duell der Ritter',44:'Monster in Rocky Beach',45:'Ein Fall für Superhelden',46:'Jagd auf das Dino-Ei',47:'Falsche Fußballfreunde',48:'Tanz der Skelette',49:'Der singende Geist',50:'Schatz der Piraten',51:'Tatort Kletterpark',52:'Mächtige Magier',53:'Geheimnis der Tiere',54:'Zombie-Alarm',55:'Der schwarze Joker',56:'Das Rätsel der Könige',57:'Der Weihnachtsdieb',58:'Spur des Drachen',59:'Fußballhelden',60:'Gespensterjagd',61:'Alarm im Dino-Park',62:'Gefahr im Dschungel',63:'Monster-Wolken',64:'In der Schatzhöhle',65:'Mission Goldhund',66:'Geheimnis im Meer',67:'Der goldene Drache',68:'Chaos im Dunkeln',69:'Die Rätselfalle',70:'Aufbruch ins All',71:'Tatort Trampolin',72:'Die Laser-Falle',73:'Surfstrand in Gefahr',74:'Das Schienen-Monster',75:'Der Fußball-Roboter',76:'Blinde Passagiere',77:'Die Musikdiebe',78:'Schrottplatz in Gefahr',79:'Achtung, Abenteuer!',80:'Gefährlicher Nebel',81:'Turbo-Rennen',82:'Die Delfin-Piraten',83:'Fußball-Diebe',84:'Tatort Skater-Park',85:'Falscher Alarm',86:'Riesen in Rocky Beach',87:'Das Geisterspiel',88:'Schatz aus dem All',89:'Im Geistergarten',90:'Flug ins Nichts',91:'Gefahr im Spiegelkabinett',92:'Spuk im Leuchtturm',93:'Die Geistermühle',94:'Falsche Vampire',95:'Geheime Zeichen',96:'Der Schrottkönig',97:'Die Fragezeichen-Falle',98:'Die Geisterpferde',99:'Football-Falle',100:'100 Stunden',101:'Geistermusik',102:'Spur der Tresorknacker',103:'SOS im Bike-Park',104:'Teuflische Küche',105:'Fiese Fälscherbande',106:'Miese Doppelgänger',107:'Fußball-Spione',108:'Piraten in Rocky Beach',109:'Fluch der Mumie'},
+  rbc:{1:'Gefährliche Gentlemen',2:'Der blutrote Kondor',3:'Eiskalter Rausch',4:'Mord unter Palmen',5:'Tödliche Törtchen'},
+  graphic:{1:'Der dreiäugige Totenkopf',2:'Das Dorf der Teufel',3:'Das Ritual der Schlangen',4:'Der Goldene Salamander',5:'Hotel Bigfoot',6:'Phantom Highway',7:'Das Gespensterschloss',8:'Die flüsternde Mumie',9:'Die rätselhaften Bilder'},
+};
+
+var cur={series:'haupt',filter:'alle',search:''};
+var read={};
+try{read=JSON.parse(localStorage.getItem(SK)||'{}');}catch(e){}
+function save(){try{localStorage.setItem(SK,JSON.stringify(read));}catch(e){}}
+function rkey(s,n){return s+':'+n;}
+
+function getMeta(key){for(var i=0;i<SERIES_META.length;i++){if(SERIES_META[i].key===key)return SERIES_META[i];}return null;}
+function getTitle(series,n){var t=TITLES[series];return (t&&t[n])?t[n]:null;}
+
+function getTotalRead(){var c=0;for(var k in read){if(read[k])c++;}return c;}
+
+function updateTotal(){
+  var done=getTotalRead();
+  var pct=Math.round(done/TOTAL_ALL*100);
+  document.getElementById('totaltext').textContent=done+' / '+TOTAL_ALL;
+  document.getElementById('totalfill').style.width=pct+'%';
+}
+
+function buildTabs(){
+  var row=document.getElementById('tabsrow');
+  row.innerHTML='';
+  SERIES_META.forEach(function(s){
+    var done=0;
+    for(var n=1;n<=s.count;n++){if(read[rkey(s.key,n)])done++;}
+    var btn=document.createElement('button');
+    btn.className='tbtn'+(s.key===cur.series?' on':'');
+    btn.innerHTML=s.emoji+' '+s.label+'<span class="tbadge">'+done+'/'+s.count+'</span>';
+    btn.setAttribute('data-key',s.key);
+    btn.onclick=function(){setSeries(this.getAttribute('data-key'));};
+    row.appendChild(btn);
+  });
+}
+
+function updateHeader(){
+  var m=getMeta(cur.series);
+  var done=0;
+  for(var n=1;n<=m.count;n++){if(read[rkey(cur.series,n)])done++;}
+  var pct=Math.round(done/m.count*100);
+  var smap={aktiv:'aktiv',eingestellt:'eingestellt',abgeschlossen:'abgeschlossen',pause:'Pause'};
+  document.getElementById('htitle').textContent=m.label.toUpperCase();
+  document.getElementById('hsub').innerHTML=done+' von '+m.count+' gelesen &middot; '+pct+'%'
+    +' <span class="schip s-'+m.status+'">'+smap[m.status]+'</span>';
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('hdr').style.background='linear-gradient(135deg,'+m.c1+','+m.c2+')';
+  updateTotal();
+}
+
+function setSeries(key){
+  cur.series=key;cur.filter='alle';cur.search='';
+  document.querySelector('.sbox').value='';
+  document.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-f')==='alle');});
+  buildTabs();updateHeader();renderGrid();
+  setTimeout(function(){var a=document.querySelector('.tbtn.on');if(a)a.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});},50);
+}
+
+var ioObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){loadCover(e.target);ioObs.unobserve(e.target);}});
+},{rootMargin:'400px'});
+
+function makeCss(n,m){
+  var chars=['🔍','📖','🕵','🔦','🗝','💀','🌊','🏔','🕯','⚡','🌙','🎭','🐍','🦅','🔮'];
+  var ch=chars[(n-1)%chars.length];
+  return '<div class="ccss" style="background:linear-gradient(145deg,'+m.c1+' 0%,'+m.c2+' 100%)">'
+    +'<div class="st" style="top:-10%"></div><div class="st" style="top:25%"></div><div class="st" style="top:60%"></div>'
+    +'<div class="logo">DIE DREI ???</div>'
+    +'<div class="emo">'+ch+'</div>'
+    +'<div class="num">'+n+'</div></div>';
+}
+
+function loadCover(card){
+  var n=parseInt(card.getAttribute('data-n'));
+  var series=card.getAttribute('data-s');
+  var wrap=card.querySelector('.cwrap');
+  var exts=['jpg','png','webp','jpeg'];
+  function tryNext(i){
+    if(i>=exts.length)return;
+    var img=new Image();img.className='cimg';
+    img.onload=function(){wrap.innerHTML='';wrap.appendChild(img);};
+    img.onerror=function(){tryNext(i+1);};
+    img.src='covers/'+series+'/'+n+'.'+exts[i];
+  }
+  tryNext(0);
+  return;
+  var url='covers/'+series+'/'+n+'.jpg';
+  var img=new Image();img.className='cimg';
+  img.onload=function(){wrap.innerHTML='';wrap.appendChild(img);};
+  img.src=url;
+}
+
+function toggleRead(series,n){
+  var key=rkey(series,n);
+  var card=document.querySelector('[data-s="'+series+'"][data-n="'+n+'"]');
+  if(read[key]){
+    delete read[key];
+    if(card){card.classList.remove('read','pop');}
+  } else {
+    read[key]=true;
+    if(card){card.classList.add('read','pop');setTimeout(function(){card.classList.remove('pop');},500);}
+    spawnConfetti();
+  }
+  save();updateHeader();buildTabs();
+}
+
+function spawnConfetti(){
+  var c=['#FFD700','#1A237E','#4CAF50','#FF9800','#E91E63','#00BCD4'];
+  for(var i=0;i<20;i++){
+    var d=document.createElement('div');d.className='cdot';
+    var sz=6+Math.random()*8;
+    d.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+c[i%c.length]+';left:'+(Math.random()*100)+'%;animation-delay:'+(Math.random()*0.6)+'s;animation-duration:'+(1.2+Math.random())+'s;border-radius:'+(Math.random()>.5?'50%':'3px');
+    document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},3000);
+  }
+}
+
+function makeAffiliateUrl(series,n,type){
+  var m=getMeta(series);
+  var title=getTitle(series,n);
+  var q;
+  if(type==='audio'){
+    q=encodeURIComponent('Die drei Fragezeichen '+title+' Hörspiel');
+  } else {
+    if(title) q=encodeURIComponent('Die drei Fragezeichen '+title);
+    else q=encodeURIComponent(m.label+' '+n);
+  }
+  return 'https://www.amazon.de/s?k='+q+'&tag='+AFFILIATE;
+}
+
+function renderGrid(){
+  var m=getMeta(cur.series);
+  var s=cur.search.toLowerCase();
+  var grid=document.getElementById('grid');
+  var empty=document.getElementById('empty');
+  var books=[];
+  for(var n=1;n<=m.count;n++){
+    var title=getTitle(cur.series,n)||'';
+    if(s&&String(n).indexOf(s)<0&&title.toLowerCase().indexOf(s)<0)continue;
+    var k=rkey(cur.series,n);
+    if(cur.filter==='gelesen'&&!read[k])continue;
+    if(cur.filter==='ungelesen'&&read[k])continue;
+    books.push(n);
+  }
+  grid.innerHTML='';
+  if(!books.length){empty.style.display='block';return;}
+  empty.style.display='none';
+  var frag=document.createDocumentFragment();
+  books.forEach(function(n){
+    var k=rkey(cur.series,n);
+    var title=getTitle(cur.series,n)||('??? '+n);
+    var card=document.createElement('div');
+    card.className='card'+(read[k]?' read':'');
+    card.setAttribute('data-n',n);card.setAttribute('data-s',cur.series);
+    card.title='???  '+n+': '+title;
+    var bookUrl=makeAffiliateUrl(cur.series,n,'book');
+    var audioUrl=makeAffiliateUrl(cur.series,n,'audio');
+    var showAudio=(cur.series==='haupt'||cur.series==='kids');
+    var btnHtml='<div class="btnrow">'
+      +'<a class="abtn abtn-book" href="'+bookUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#128722; Buch</a>'
+      +(showAudio?'<a class="abtn abtn-audio" href="'+audioUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">&#127911; H&ouml;rspiel</a>':'')
+      +'</div>';
+    card.innerHTML='<div class="cbadge">&#10003;</div>'
+      +'<div class="cwrap">'+makeCss(n,m)+'</div>'
+      +'<div class="ctitle"><span style="color:#999;font-size:0.5rem;display:block;margin-bottom:1px">Band '+n+'</span><span>'+title+'</span></div>'
+      +btnHtml;
+    card.addEventListener('click',(function(s,nn){return function(){toggleRead(s,nn);};})(cur.series,n));
+    frag.appendChild(card);
+    ioObs.observe(card);
+  });
+  grid.appendChild(frag);
+}
+
+function setFilter(btn){
+  cur.filter=btn.getAttribute('data-f');
+  document.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('on',b===btn);});
+  renderGrid();
+}
+function setSearch(v){cur.search=v;renderGrid();}
+
+buildTabs();updateHeader();renderGrid();
+</script>
+</body>
+</html>
