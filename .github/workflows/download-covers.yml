@@ -202,14 +202,17 @@ jobs:
 
           GFX = {
             1:'Der dreiäugige Totenkopf',2:'Das Dorf der Teufel',
-            3:'Das Ritual der Schlangen',4:'Das Gespensterschloss',
+            3:'Das Ritual der Schlangen',4:'Der Goldene Salamander',
+            5:'Hotel Bigfoot',6:'Phantom Highway',
+            7:'Das Gespensterschloss',8:'Die flüsternde Mumie',
+            9:'Die rätselhaften Bilder',
           }
 
           SERIES = [
             ('haupt', 244, HAUPT),
             ('kids',  109, KIDS),
             ('rbc',     6, RBC),
-            ('graphic', 8, GFX),
+            ('graphic', 9, GFX),
           ]
 
           total = 0
@@ -247,9 +250,37 @@ jobs:
                   'Die schwarze Rose': 'Die schwarze Rose.jpg',
                   'Das weiße Auge': 'Das weisse Auge.jpg',
                 }
+                GRAPHIC_FILES = {
+                  'Der dreiäugige Totenkopf': 'Dreiköpfiger Totenkopf.jpg',
+                  'Das Dorf der Teufel': 'Dorf-der-Teufel-Cover.jpg',
+                  'Das Ritual der Schlangen': 'Das Ritual der Schlangen.jpg',
+                  'Der Goldene Salamander': 'Der Goldene Salamander 2.jpg',
+                  'Hotel Bigfoot': 'Hotel Bigfoot.jpg',
+                  'Phantom Highway': 'Phantom Highway.jpg',
+                  'Das Gespensterschloss': '9783440171714-cover-mneues_gs.jpg',
+                  'Die flüsternde Mumie': '9783440171721-cover-mdie neue mumie von silvia.jpg',
+                  'Die rätselhaften Bilder': 'die_rätselhaften_bilder_drei_???_cover.jpg',
+                }
+                RBC_FILES = {
+                  'Tödliche Törtchen': 'Rocky Beach Crimes 1.jpg',
+                  'Mord unter Palmen': 'Rocky Beach Crimes 2.jpg',
+                  'Eiskalter Rausch': 'Eiskalter Rausch.jpg',
+                  'Der blutrote Kondor': 'Der blutrote Kondor.jpg',
+                  'Gefährliche Gentlemen': 'GGMECover.jpg',
+                }
                 if not img and title in SPECIAL_FILES:
                   img = get_img('Datei:' + SPECIAL_FILES[title])
                   if not img: img = get_img('File:' + SPECIAL_FILES[title])
+              elif key == 'graphic':
+                if title in GRAPHIC_FILES:
+                  img = get_img('Datei:' + GRAPHIC_FILES[title])
+                  if not img: img = get_img('File:' + GRAPHIC_FILES[title])
+                if not img: img = get_img(title)
+              elif key == 'rbc':
+                if title in RBC_FILES:
+                  img = get_img('Datei:' + RBC_FILES[title])
+                  if not img: img = get_img('File:' + RBC_FILES[title])
+                if not img: img = get_img(title)
                 # Fallback: extract Bild field from wikitext
                 if not img:
                   img = get_img_from_wikitext(title)
