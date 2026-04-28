@@ -8,7 +8,7 @@ Lesetracker für alle Die drei ??? Bücher und Hörspiele.
 - 📚 **367 Bände** in 4 Reihen
 - 🖼️ Echte Cover vom Fandom-Wiki
 - ✅ Abhaken mit Konfetti
-- 🛒 **Amazon Affiliate** – Buch & Hörspiel Buttons pro Band
+- 🛒 Amazon Kaufen-Links – Buch & Hörspiel pro Band
 - 💾 Fortschritt lokal gespeichert
 - 📱 PWA – auf Homescreen installierbar
 
